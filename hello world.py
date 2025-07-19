@@ -1,28 +1,23 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.keys import Keys
 import time
 
-# pip3 install selenium
-# pip3 install webdriver-manager
-# to run this script , use "python3 hello world.py"
-# Automatically downloads and sets up ChromeDriver
-service = Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service)
+# Set up the browser
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
+# Open Amazon
+driver.get("https://www.amazon.in/")
+time.sleep(2)  # wait for page to load
 
-driver.get("https://www.google.com")
+# Find the search box and enter product name
+search_box = driver.find_element(By.ID, "twotabsearchtextbox")
+search_box.send_keys("iPhone 15")
+search_box.send_keys(Keys.RETURN)
 
-#to interact with the search input field using its class name
-input_element = driver.find_element(By.CLASS_NAME, "gLFyf")
+# Wait for results to load
+time.sleep(3)
 
-input_element.send_keys("Hello World" + Keys.RETURN)
-
-time.sleep(5)  # Wait for results to load
-
-driver.quit()  # Close the browser
-
-
-
+# (We'll extract price in the next step)
